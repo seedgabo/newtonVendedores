@@ -11,7 +11,7 @@ export class Api {
     username:string;
     password:string;
     token:string;
-    url:string = 'http://newton.eycproveedores.com/newton/public/';
+    url:string = 'http://newton.eycproveedores.com/pedrollo/public/';
     // url:string = 'http://localhost/newton/public/';
     user:any;
     pushData:any;
