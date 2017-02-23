@@ -1,0 +1,38 @@
+<ion-split-panel>
+    <ion-menu [content]="content" *ngIf="api.user != undefined">
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-title>Menu</ion-title>
+            </ion-toolbar>
+        </ion-header>
+
+        <ion-content>
+            <ion-list>
+                <ion-list-header>
+                    Pedidos
+                    <ion-icon item-right name="pricetag" small></ion-icon>
+                </ion-list-header>
+                <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" [color]="active == p ? 'primary':''">
+                    <ion-icon item-left [name]="p.icon" [color]="active == p ? '':'primary'"></ion-icon>
+                    {{p.title}}
+                </button>
+                <ion-list-header>
+                    Opciones
+                    <ion-icon item-right name="cog" small></ion-icon>
+                </ion-list-header>
+                <button menuClose ion-item *ngFor="let p of pagesOptions" (click)="openPage(p)" [color]="active == p ? 'primary':''">
+                    <ion-icon item-left [name]="p.icon" [color]="active == p ? '':'primary'"></ion-icon>
+                    {{p.title}}
+                </button>
+                <button menuClose ion-item  (click)="logout()">
+                    <ion-icon item-left name="log-out"></ion-icon>
+                    Cerrar Sesión
+                </button>
+            </ion-list>
+        </ion-content>
+
+    </ion-menu>
+
+    <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+    <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main></ion-nav>
+</ion-split-panel>

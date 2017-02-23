@@ -1,0 +1,24 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Clientes</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+      <ion-searchbar [(ngModel)]="query">
+      </ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let cliente of (api.clientes | filterBy: {full_name_cedula:query})" (click)="selectCliente(cliente)" [color]="api.cliente == cliente? 'primary':''">
+            <ion-avatar item-left *ngIf="cliente.foto_url">
+                <img [src]="cliente.foto_url" alt="{{cliente.full_name}}">
+            </ion-avatar>
+            <h2>{{cliente.full_name}}</h2>
+            <p>{{cliente.nit.length >0? cliente.nit: cliente.cedula}}</p>
+        </ion-item>
+    </ion-list>
+</ion-content>
