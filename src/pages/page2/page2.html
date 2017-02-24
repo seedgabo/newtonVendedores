@@ -3,7 +3,11 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Carrito</ion-title>
+        <ion-title>
+            Carrito |
+            <span *ngIf="api.cliente">{{api.cliente.full_name}}</span>
+            <span *ngIf="!api.cliente">Selecione un cliente</span>
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -42,7 +46,7 @@
                         <b>Total:</b> {{total()|currency:'USD':true}}
                     </div>
                 </ion-col>
-                <ion-col width-66>
+                <ion-col width-50>
                     <button ion-button full color="secondary" icon-left (click)="confirmarCarrito()">
                          <ion-icon name="cart"></ion-icon>
                          Confirmar Pedido

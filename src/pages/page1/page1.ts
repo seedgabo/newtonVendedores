@@ -26,7 +26,7 @@ export class Home{
                     console.log(data);
                 }).catch((err)=>{console.log(err);});
 
-                this.api.get("categorias-productos?where[parent_id]=0&with[]=image&with[]=banner&limit=30").then((data)=>{
+                this.api.get("categorias-productos?orWhere[parent_id]=0&orWhereNull[]=parent_id&with[]=image&with[]=banner&limit=30").then((data)=>{
                     this.categorias = data;
                     console.log(data);
                 });

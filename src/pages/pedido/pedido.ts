@@ -26,6 +26,10 @@ export class PedidoPage {
     }
 
     confirmarCarrito(){
+        if(this.api.cliente == undefined){
+            this.alert.create({title:"Debe Elegir un cliente",buttons:["OK"]}).present();
+            return
+        }
         this.alert.create({title:"¿Desea Procesar este Carrito?",buttons:
         [
             {

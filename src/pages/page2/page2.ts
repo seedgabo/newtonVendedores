@@ -27,7 +27,11 @@ export class Page2 {
     }
 
     confirmarCarrito(){
-        this.alert.create({title:"¿Desea Procesar este Carrito?",buttons:
+        if(this.api.cliente == undefined){
+            this.alert.create({title:"Debe Elegir un cliente",buttons:["OK"]}).present();
+            return
+        }
+        this.alert.create({title:`¿Desea Procesar este carrito al cliente: ${this.api.cliente.full_name}?`,buttons:
         [
             {
                 text:"Si",
@@ -62,10 +66,12 @@ export class Page2 {
         }
 
         this.api.post("pedidos",data).then((response)=>{
-            console.log(response);
+            this.alert.create({title:"Pedido Existoso",message:"El Carrito ha sido procesado", cssClass:"success", buttons:["Bien!"]}).present();
+            this.api.clearCarrito();
         })
         .catch((err)=>{
             console.error(err);
+            this.alert.create({title:"Error",message:"Error al cargar el pedido", cssClass:"danger", buttons:["Ok"]}).present();
         });
 
 
