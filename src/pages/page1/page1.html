@@ -19,7 +19,13 @@
   <div text-center>
     <ion-spinner color="primary" *ngIf="loading"></ion-spinner>
   </div>
-
+  <ion-slides pager *ngIf="destacados.length > 0" style="height:33%;" autoplay="3500" loop="true">
+    <ion-slide *ngFor="let prod of destacados" (click)="verProducto(prod)">
+      <img [src]="prod.image_url" alt="" style="height:100px">
+      <h4>{{prod.name}}</h4>
+      <h6>{{prod.precio | currency:'USD':true }}</h6>
+    </ion-slide>
+  </ion-slides>
 
   <ion-card *ngIf="categorias.length > 0 && query.length == 0">
     <ion-list>

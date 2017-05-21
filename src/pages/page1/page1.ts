@@ -8,6 +8,7 @@ import * as $ from 'jquery';
     templateUrl: 'page1.html'
 })
 export class Home {
+    destacados: any = [];
     productos: any = [];
     query = "";
     loading = false;
@@ -31,6 +32,11 @@ export class Home {
                     console.log(data);
                 });
 
+                this.api.get("productos?with[]=image&limit=6&order[updated_at]=desc&scope[active]=&scope[destacados]").then((data) => {
+                    this.destacados = data;
+                    console.log("destacados", data);
+                }).catch((err) => { console.log(err); });
+
             }
 
 
@@ -46,7 +52,6 @@ export class Home {
                     this.categorias = data;
                     console.log(data);
                 }).catch((err) => { console.log(err); });
-
             }
         });
     }
