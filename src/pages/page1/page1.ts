@@ -1,32 +1,32 @@
-import {Component} from '@angular/core';
-import {Api} from '../../providers/api';
-import { NavController, AlertController,ToastController,NavParams } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { Api } from '../../providers/api';
+import { NavController, AlertController, ToastController, NavParams } from 'ionic-angular';
 import { ProductoPage } from '../producto/producto';
-import * as $ from 'jQuery';
+import * as $ from 'jquery';
 @Component({
     selector: 'page-page1',
     templateUrl: 'page1.html'
 })
-export class Home{
-    productos:any=[];
-    query="";
-    loading=false;
-    categoria:any = undefined;
-    categorias:any = [];
-    constructor(public navCtrl:NavController,public api:Api,public alert:AlertController, public toast:ToastController, public params:NavParams) {
+export class Home {
+    productos: any = [];
+    query = "";
+    loading = false;
+    categoria: any = undefined;
+    categorias: any = [];
+    constructor(public navCtrl: NavController, public api: Api, public alert: AlertController, public toast: ToastController, public params: NavParams) {
         this.categoria = params.get("categoria");
     }
 
-    ionViewDidLoad(){
-        this.api.storage.get("user").then((data)=>{
-            if(this.categoria == undefined){
+    ionViewDidLoad() {
+        this.api.storage.get("user").then((data) => {
+            if (this.categoria == undefined) {
 
-                this.api.get("productos?with[]=image&limit=30&scope[]=active").then((data)=>{
+                this.api.get("productos?with[]=image&limit=30&scope[active]=").then((data) => {
                     this.productos = data;
                     console.log(data);
-                }).catch((err)=>{console.log(err);});
+                }).catch((err) => { console.log(err); });
 
-                this.api.get("categorias-productos?orWhere[parent_id]=0&orWhereNull[]=parent_id&with[]=image&with[]=banner&limit=30").then((data)=>{
+                this.api.get("categorias-productos?orWhere[parent_id]=0&orWhereNull[]=parent_id&with[]=image&with[]=banner&limit=30").then((data) => {
                     this.categorias = data;
                     console.log(data);
                 });
@@ -35,82 +35,82 @@ export class Home{
 
 
 
-            else
-            {
+            else {
 
-                this.api.get(`productos?where[categoria_id]=${this.categoria.id}&with[]=image&limit=30&scope[]=active`).then((data)=>{
+                this.api.get(`productos?where[categoria_id]=${this.categoria.id}&with[]=image&limit=30&scope[active]=`).then((data) => {
                     this.productos = data;
                     console.log(data);
-                }).catch((err)=>{console.log(err);});
+                }).catch((err) => { console.log(err); });
 
-                this.api.get(`categorias-productos?where[parent_id]=${this.categoria.id}&with[]=image&with[]=banner&limit=30`).then((data)=>{
+                this.api.get(`categorias-productos?where[parent_id]=${this.categoria.id}&with[]=image&with[]=banner&limit=30`).then((data) => {
                     this.categorias = data;
                     console.log(data);
-                }).catch((err)=> {console.log(err);});
+                }).catch((err) => { console.log(err); });
 
             }
         });
     }
 
-    agregarAlCarrito(producto){
-        var alert = this.alert.create({title:"Agregar Al Carrito",inputs:
+    agregarAlCarrito(producto) {
+        var alert = this.alert.create({
+            title: "Agregar Al Carrito", inputs:
             [
-                {type:"number",name:"cantidad",label:"Cantidad", value:"1",placeholder:"Ingrese la cantidad"}
+                { type: "number", name: "cantidad", label: "Cantidad", value: "1", placeholder: "Ingrese la cantidad" }
             ],
             buttons:
             [
                 {
-                    text:"Agregar",
-                    handler: (data)=>{
+                    text: "Agregar",
+                    handler: (data) => {
                         if (producto.es_vendible_sin_stock || producto.stock >= data.cantidad) {
                             producto.cantidad_pedidos = data.cantidad;
                             this.api.addToCart(producto);
-                            this.toast.create({message:"Agregado al Carrito",duration:1000,position:"bottom"}).present();
-                        }else{
-                            this.alert.create({title:"Sin Stock Suficiente", buttons: ["Ok"]}).present();
+                            this.toast.create({ message: "Agregado al Carrito", duration: 1000, position: "bottom" }).present();
+                        } else {
+                            this.alert.create({ title: "Sin Stock Suficiente", buttons: ["Ok"] }).present();
                         }
                     }
                 },
                 {
-                    text:"Cancelar",
-                    handler:()=>{
+                    text: "Cancelar",
+                    handler: () => {
 
                     }
                 }
             ]
         });
-        alert.present().then(()=>{
-            $("input[type='number']").attr("min","0");
-            if(!producto.es_vendible_sin_stock){
-                $("input[type='number']").attr("max",producto.stock);
+        alert.present().then(() => {
+            $("input[type='number']").attr("min", "0");
+            if (!producto.es_vendible_sin_stock) {
+                $("input[type='number']").attr("max", producto.stock);
             }
         });
     }
 
-    verProducto(producto){
-        this.navCtrl.push(ProductoPage, {producto:producto});
+    verProducto(producto) {
+        this.navCtrl.push(ProductoPage, { producto: producto });
     }
 
-    verCategoria(categoria){
-        this.navCtrl.push(Home,{categoria: categoria});
+    verCategoria(categoria) {
+        this.navCtrl.push(Home, { categoria: categoria });
     }
 
-    buscar(searchbar){
-         this.loading =true;
-        this.api.get("productos?with[]=image&limit=30&orWhereLike[name]="+this.query+"&orWhereLike[description]="+this.query+"&scope[]=active").then((data)=>{
+    buscar(searchbar) {
+        this.loading = true;
+        this.api.get("productos?with[]=image&limit=30&orWhereLike[name]=" + this.query + "&orWhereLike[description]=" + this.query + "&scope[active]=").then((data) => {
             this.productos = data;
-            this.loading=false;
+            this.loading = false;
             console.log(data);
-        }).catch((Err)=>{
-            this.loading=false;
+        }).catch((Err) => {
+            this.loading = false;
             console.log(Err);
         });
     }
 
-    changeView(){
-        if(this.api.vista == 'grid'){
+    changeView() {
+        if (this.api.vista == 'grid') {
             this.api.vista = 'list';
-        }else{
+        } else {
             this.api.vista = 'grid';
         }
     }

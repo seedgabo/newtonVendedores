@@ -1,4 +1,4 @@
-<ion-split-panel>
+<ion-split-pane>
     <ion-menu [content]="content" *ngIf="api.user != undefined">
         <ion-header>
             <ion-toolbar color="primary">
@@ -35,4 +35,4 @@
 
     <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
     <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main></ion-nav>
-</ion-split-panel>
+</ion-split-pane>
