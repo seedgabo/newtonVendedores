@@ -20,6 +20,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { IonicStorageModule } from '@ionic/storage';
 import { MomentModule } from 'angular2-moment';
 import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
+import { PedidosPage } from "../pages/pedidos/pedidos";
 @NgModule({
   declarations: [
     MyApp,
@@ -29,6 +30,8 @@ import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
     ClientesPage,
     ProfilePage,
     LoginPage,
+    PedidosPage,
+    PedidoPage
   ],
   bootstrap: [IonicApp],
   imports: [
@@ -47,6 +50,8 @@ import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
     ClientesPage,
     ProfilePage,
     LoginPage,
+    PedidosPage,
+    PedidoPage
   ],
   providers: [
     StatusBar, SplashScreen,
